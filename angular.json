@@ -3,5 +3,135 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "custom-card": {
+      "projectType": "library",
+      "root": "projects/custom-card",
+      "sourceRoot": "projects/custom-card/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/custom-card/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/custom-card/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/custom-card/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/custom-card/src/test.ts",
+            "tsConfig": "projects/custom-card/tsconfig.spec.json",
+            "karmaConfig": "projects/custom-card/karma.conf.js"
+          }
+        }
+      }
+    },
+    "custom-app-one": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/custom-app-one",
+      "sourceRoot": "projects/custom-app-one/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/custom-app-one",
+            "index": "projects/custom-app-one/src/index.html",
+            "main": "projects/custom-app-one/src/main.ts",
+            "polyfills": "projects/custom-app-one/src/polyfills.ts",
+            "tsConfig": "projects/custom-app-one/tsconfig.app.json",
+            "assets": [
+              "projects/custom-app-one/src/favicon.ico",
+              "projects/custom-app-one/src/assets"
+            ],
+            "styles": [
+              "projects/custom-app-one/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/custom-app-one/src/environments/environment.ts",
+                  "with": "projects/custom-app-one/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "custom-app-one:build:production"
+            },
+            "development": {
+              "browserTarget": "custom-app-one:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "custom-app-one:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/custom-app-one/src/test.ts",
+            "polyfills": "projects/custom-app-one/src/polyfills.ts",
+            "tsConfig": "projects/custom-app-one/tsconfig.spec.json",
+            "karmaConfig": "projects/custom-app-one/karma.conf.js",
+            "assets": [
+              "projects/custom-app-one/src/favicon.ico",
+              "projects/custom-app-one/src/assets"
+            ],
+            "styles": [
+              "projects/custom-app-one/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "custom-card"
 }
